@@ -15,12 +15,14 @@ public class Test {
 	private static StockageJeu jeu;
 	private static Assam pion;
 	private static int tour;
+	private static Joueur[] joueurs;
 
 
 	public static void main(String[] args){
 		jeu = StockageJeu.initialize(3);
 		pion = jeu.getAssam();
 		tour = 0;
+		joueurs = jeu.getJoueurs();
 		fonctionABen();
 		
 
@@ -62,7 +64,7 @@ public class Test {
 		else{
 			Joueur payeur = joueurs[tour];
 			Joueur paye = joueurs[caseInfoTapis];
-			pion.payerVraimentDime(payeur,paye,payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
+			pion.payerVraimentDime(payeur,paye,jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
 		}
 	}
 

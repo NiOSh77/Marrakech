@@ -15,7 +15,7 @@ public class StockageJeu{
 	/**
 	*	Represente les joueurs
 	*/
-	private static Joueurs[] joueurs;
+	private static Joueur[] joueurs;
 
 	/**
 	*	Represente Assam le pion
@@ -62,7 +62,7 @@ public class StockageJeu{
 	*/
 	private void initialiseJoueurs(int nbJoueurs){
 		for(int i = 0; i < nbJoueurs; i++){
-			Joueurs[i] = new Joueur(i, 20, 14, i+1);
+			joueurs[i] = new Joueur(i, 20, 14, i+1);
 		}
 	}
 
@@ -132,6 +132,14 @@ public class StockageJeu{
 	*/
 	public Assam getAssam(){
 		return pion;
+	}
+
+	/**
+	*	Methode pour obtenir la liste des joueurs
+	*	@return joueurs
+	*/
+	public static Joueur[] getJoueurs(){
+		return joueurs;
 	}
 
 

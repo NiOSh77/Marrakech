@@ -8,7 +8,7 @@ public class Joueur{
 
   /**
   *Numero du joueur
-  *De 0 à 3
+  *De 0 a 3
   */
   private int numJoueur;
 
