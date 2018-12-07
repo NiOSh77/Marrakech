@@ -14,11 +14,13 @@ public class Test {
 
 	private static StockageJeu jeu;
 	private static Assam pion;
+	private static int tour;
 
 
 	public static void main(String[] args){
 		jeu = StockageJeu.initialize(3);
 		pion = jeu.getAssam();
+		tour = 0;
 		fonctionABen();
 		
 
@@ -27,16 +29,40 @@ public class Test {
 
 	private static void fonctionABen(){
 		while(true){
+			if(tour <4){
+				tour++;
+			}
+			else{
+				tour =1;
+			}
+
 			afficherJeu();
 
 			String[] direction = {"Aucune", "G", "D", "H", "B"};
 			System.out.println("Direction de assam: "+direction[pion.getDirection()]);
-			int n = de();
+			while (n = demanderNbDeplacement() == -1 );
 			System.out.println("On lance le de, vous obtenez: "+ n+"\nChoisissez une direction sans faire demi tour!");
 			deplacerAssam(n);
+			verifPayement();
 
 
 			
+		}
+	}
+
+	private static void verifPayement(){
+		int x,y;
+		x=pion.getXPion();
+		y=pion.getYPion();
+		int caseInfoTapis = jeu.cases[x][y].getCouleurTapis();
+		if(caseInfoTapis == tour || caseInfoTapis == 0){
+			return;
+		}
+		else{
+			Joueur payeur = joueurs[tour];
+			Joueur paye = joueurs[caseInfoTapis];
+			pion.payerVraimentDime(payeur,paye,payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
+			}
 		}
 	}
 
@@ -49,7 +75,7 @@ public class Test {
 
 				System.out.println("\n\n");
 				System.out.println("Assam est en pos " + pion.getXPion() + "  " + pion.getYPion());
-				System.out.println("Assam est sur un tapis :" + jeu.cases[pion.getYPion()-1][pion.getXPion()-1].getCouleurTapis());	
+				System.out.println("Assam est sur un tapis :" + jeu.cases[pion.getXPion()-1][pion.getYPion()-1].getCouleurTapis());	
 				afficherJeu();
 				while(!poserTapis());
 	
@@ -92,7 +118,7 @@ public class Test {
 		for(int i = 0; i < 7; i++){
 				for (int j = 0; j < 7; j++){
 
-					if(pion.getXPion()-1 == j && pion.getYPion()-1 == i){
+					if(pion.getXPion()-1 == i && pion.getYPion()-1 == j){
 						System.out.print("A ");
 					} else {
 						System.out.print(jeu.cases[i][j].getCouleurTapis()+" ");
@@ -101,36 +127,36 @@ public class Test {
 				System.out.print("\n");
 			}
 	}
-	/*
 
 	private static void fonctionASo(){
 		Fenetre f = new Fenetre();
 		Graphique G = new Graphique(jeu);
 		f.add(G);
 		f.addKeyListener(new Clavier(jeu.getAssam(),G));
-	}*/
+	}
 
-	public static int de(){
-	    Random rand = new Random();
-	    int nombreR = rand.nextInt()%6;
-	    if(nombreR<0){
-	      nombreR = -nombreR;
-	    }
-	    nombreR ++;
+	public static int demanderNbDeplacement(){
 
-	    if(nombreR == 2 || nombreR == 3){
-	      nombreR = 2;
-	    }
-	    else if(nombreR == 4 || nombreR == 5){
-	      nombreR = 3;
-	    } else if(nombreR == 6){
-	      nombreR = 4;
-	    } else {
-	      nombreR = 1;
-	    }
-	    return nombreR;
+		System.out.println("Choisissez le nombre de deplacement entre 1 et 4");
+		Scanner sc = new Scanner(System.in);
+	 	String tmp = sc.nextLine();
+	 	try{
+	 		while(true){
+	 			int n = Integer.parseInt(tmp);
+	 			if(n>=1 && n<=4){
+	 				break;
+	 			}
+	 			System.out.println("NON, mettez un entier entre 1 et 4");
+	 		}
+	 		
 
-  }
+	 	} catch (NumberFormatException e){
+	 		System.out.println("Mettez un nombre!");
+	 		return -1;
+	 	}
+
+
+	}
 
 	private  static boolean poserTapis(){
 		System.out.println("Choisisser une premiere case pour poser tapis");
@@ -181,19 +207,19 @@ public class Test {
 			} else {
 				try{
 				  	if(d == 1){
-				  		jeu.cases[posYTapis][posXTapis-1].setCouleurTapis(1);
+				  		jeu.cases[posXTapis][posYTapis-1].setCouleurTapis(1);
 				  	} 
 
 				  	else if(d == 2){
-				  		jeu.cases[posYTapis][posXTapis+1].setCouleurTapis(1);
+				  		jeu.cases[posXTapis][posYTapis+1].setCouleurTapis(1);
 				  	}
 
 				  	else if(d == 3){
-				  		jeu.cases[posYTapis-1][posXTapis].setCouleurTapis(1);
+				  		jeu.cases[posXTapis-1][posYTapis].setCouleurTapis(1);
 				  	} 
 
 				  	else {
-				  		jeu.cases[posYTapis+1][posXTapis].setCouleurTapis(1);
+				  		jeu.cases[posXTapis+1][posYTapis].setCouleurTapis(1);
 			  		}
 			  		break;
 	  			} catch (ArrayIndexOutOfBoundsException e){
@@ -212,7 +238,7 @@ public class Test {
 
 
 
-/*
+
 
 
 class Fenetre extends JFrame{
@@ -224,4 +250,3 @@ class Fenetre extends JFrame{
 		this.setVisible(true);
 	}
 }
-*/
