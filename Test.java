@@ -23,7 +23,7 @@ public class Test {
 		pion = jeu.getAssam();
 		tour = 0;
 		joueurs = jeu.getJoueurs();
-		fonctionABen();
+		fonctionASo();
 		
 
 	}
@@ -64,7 +64,7 @@ public class Test {
 		else{
 			Joueur payeur = joueurs[tour];
 			Joueur paye = joueurs[caseInfoTapis];
-			pion.payerVraimentDime(payeur,paye,jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
+		//	pion.payerVraimentDime(payeur,paye,jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
 		}
 	}
 
@@ -146,7 +146,7 @@ public class Test {
 	 		while(true){
 	 			int n = Integer.parseInt(tmp);
 	 			if(n>=1 && n<=4){
-	 				break;
+	 				return n;
 	 			}
 	 			System.out.println("NON, mettez un entier entre 1 et 4");
 	 		}
@@ -156,6 +156,7 @@ public class Test {
 	 		System.out.println("Mettez un nombre!");
 	 		return -1;
 	 	}
+
 
 
 	}

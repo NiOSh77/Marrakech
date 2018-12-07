@@ -7,7 +7,6 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.URL;
 import java.lang.*;
 
 /**
@@ -38,8 +37,8 @@ public class Graphique extends JComponent{
 
   @Override
   public void paintComponent(Graphics g){
-    URL url = this.getClass().getResource("marrakgrille.png");
-    Image plateau = new ImageIcon(url).getImage();
+
+    Image plateau = new ImageIcon("./img/marrakgrille.png").getImage();
     g.drawImage(plateau,0, 0, this.getWidth(),this.getHeight(), null, this);
 
     for(int i=1; i<9;i++){
@@ -47,10 +46,13 @@ public class Graphique extends JComponent{
       g.drawLine(i*(this.getWidth()/9), 0, i*(this.getWidth()/9), this.getHeight());
     }
 
-    url = this.getClass().getResource("arabe"+assam.getDirection()+".png");
-    Image arabe = new ImageIcon(url).getImage();
+    Image arabe;
+    if(assam.getDirection() == 0){
+      arabe = new ImageIcon("./img/arabe4.png").getImage();
+    } else {
+      arabe = new ImageIcon("./img/arabe"+assam.getDirection()+".png").getImage();
+    }
+
     g.drawImage(arabe,assam.getXPion()*(this.getWidth()/9), assam.getYPion()*(this.getHeight()/9), this.getWidth()/9,this.getHeight()/9, null, this);
   }
-
-  
 }
