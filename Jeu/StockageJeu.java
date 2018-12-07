@@ -61,7 +61,6 @@ public class StockageJeu{
 	*	Methode pour initialiser les joueurs
 	*/
 	private void initialiseJoueurs(){
-
 	}
 
 
@@ -74,12 +73,11 @@ public class StockageJeu{
 		if(jeu == null){
 			jeu = new StockageJeu(nb);
 		}
-
 		return jeu;
 	}
 
 	/**
-	*Methode pour calculer la dime
+	*Methode pour calculer la dime 
 	*@param couleur c'est la couleur du tapis sur lequel assam est
 	*@param x on met la position x de assam
 	*@param y on met la position y de assam

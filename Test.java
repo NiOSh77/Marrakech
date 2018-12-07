@@ -101,13 +101,14 @@ public class Test {
 				System.out.print("\n");
 			}
 	}
+	/*
 
 	private static void fonctionASo(){
 		Fenetre f = new Fenetre();
 		Graphique G = new Graphique(jeu);
 		f.add(G);
 		f.addKeyListener(new Clavier(jeu.getAssam(),G));
-	}
+	}*/
 
 	public static int de(){
 	    Random rand = new Random();
@@ -211,7 +212,7 @@ public class Test {
 
 
 
-
+/*
 
 
 class Fenetre extends JFrame{
@@ -223,3 +224,4 @@ class Fenetre extends JFrame{
 		this.setVisible(true);
 	}
 }
+*/
