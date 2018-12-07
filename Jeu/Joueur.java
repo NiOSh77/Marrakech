@@ -8,6 +8,7 @@ public class Joueur{
 
   /**
   *Numero du joueur
+  *De 0 à 3
   */
   private int numJoueur;
 
@@ -31,11 +32,17 @@ public class Joueur{
   *@param n Numero du joueur
   *@param m Monaie du joueur
   *@param t Nombre de tapis restant
+  *@param c Couleur du joueur 
+  * 1 = rouge
+  * 2 = bleu
+  * 3 = vert
+  * 4 = jaune
   */
-  public Joueur(int n, int m, int t){
+  public Joueur(int n, int m, int t, int c){
     this.numJoueur=n;
     this.monnaie=m;
     this.tapisRest=t;
+    this.couleur=c;
   }
 
   /**
