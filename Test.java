@@ -40,7 +40,8 @@ public class Test {
 
 			String[] direction = {"Aucune", "G", "D", "H", "B"};
 			System.out.println("Direction de assam: "+direction[pion.getDirection()]);
-			while (n = demanderNbDeplacement() == -1 );
+			int n;
+			while ((n = demanderNbDeplacement()) == -1 );
 			System.out.println("On lance le de, vous obtenez: "+ n+"\nChoisissez une direction sans faire demi tour!");
 			deplacerAssam(n);
 			verifPayement();
@@ -62,7 +63,6 @@ public class Test {
 			Joueur payeur = joueurs[tour];
 			Joueur paye = joueurs[caseInfoTapis];
 			pion.payerVraimentDime(payeur,paye,payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
-			}
 		}
 	}
 

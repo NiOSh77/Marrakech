@@ -1,5 +1,7 @@
 package IHM;
 
+import Jeu.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
