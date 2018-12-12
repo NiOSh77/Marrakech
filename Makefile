@@ -8,11 +8,11 @@ CD = cd
 .java.class:
 	$(JC) -d $(JCLASSDIR) $*.java
 
-MAIN = Test
+MAIN = Main
 
 ### REGLES ESSENTIELLES ###
 
-Test.class : Test.java Jeu/JeuVConsole.class
+Main.class : Main.java Jeu/JeuVConsole.class
 Jeu/Assam.class : Jeu/Assam.java
 Jeu/Case.class : Jeu/Case.java
 Jeu/Joueur.class : Jeu/Joueur.java
