@@ -12,12 +12,13 @@ MAIN = Test
 
 ### REGLES ESSENTIELLES ###
 
-Test.class : Test.java Jeu/StockageJeu.class IHM/Graphique.class IHM/Clavier.class
+Test.class : Test.java Jeu/JeuVConsole.class
 Jeu/Assam.class : Jeu/Assam.java
 Jeu/Case.class : Jeu/Case.java
 Jeu/Joueur.class : Jeu/Joueur.java
 Jeu/Partie.class : Jeu/Partie.java
 Jeu/StockageJeu.class : Jeu/StockageJeu.java Jeu/Assam.class Jeu/Case.class Jeu/Joueur.class
+Jeu/JeuVConsole.class : Jeu/JeuVConsole.java Jeu/StockageJeu.class IHM/Graphique.class IHM/Clavier.class
 IHM/Graphique.class: IHM/Graphique.java
 IHM/Clavier.class: IHM/Clavier.java
 
