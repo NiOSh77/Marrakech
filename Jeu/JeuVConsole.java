@@ -11,28 +11,82 @@ import java.lang.ArrayIndexOutOfBoundsException;
 import IHM.*;
 
 
+/**
+*	Gere le jeu dans la console
+*	@author 
+*/
 
 public class JeuVConsole{
 
-
+	/**
+	*	Donnees du jeu
+	*/
 	private static StockageJeu jeu;
+
+	/**
+	*	Le pion Assam
+	*/
 	private static Assam pion;
+
+	/**
+	*	Permet de savoir qui joue
+	*	Prend une valeur entre 1 et 4
+	*/
 	private static int tour;
+
+	/**
+	*	Liste des joueurs
+	*/
 	private static Joueur[] joueurs;
+
+	/**
+	*	Nombre de joueurs elimines
+	*/
 	private static int joueurElimine;
 
-
+	/**
+	* Constructeur
+	*/
 	public JeuVConsole(){
-		jeu = StockageJeu.initialize(3);
+		int nb = demanderNbJoueurs();
+		jeu = StockageJeu.initialize(nb);
 		pion = jeu.getAssam();
 		tour = 0;
 		joueurs = jeu.getJoueurs();
 		joueurElimine=0;
-		fonctionABen();
+		loopJeu();
 
 
 	}
 
+	/**
+	*	Demande le nombre de joueur a la ligne de commande
+	*	@return nb Le nombre de joueurs
+	*/
+	public static int demanderNbJoueurs(){
+		while(true){
+			try{
+	 		
+	 			System.out.println("Choisissez le nombre de joueurs entre 3 et 4");
+	 			Scanner sc = new Scanner(System.in);
+	 			String tmp = sc.nextLine();
+	 			int n = Integer.parseInt(tmp);
+	 			if(n>=3 && n<=4){
+	 				return n;
+	 			}
+	 			System.out.println("Mettez un entier entre 3 et 4!");
+
+
+	 		} catch (NumberFormatException e){
+	 			System.out.println("Mettez un nombre!");
+	 		}
+	 	}
+
+	}
+
+	/**
+	*	Change valeur de tour pour savoir qu'elle joueur joue
+	*/
 	public static void passerTour(){
 		if(tour<joueurs.length){
 			tour++;
@@ -52,7 +106,10 @@ public class JeuVConsole{
 		}
 	}
 
-	private static void fonctionABen(){
+	/**
+	*	Methode principale du jeu
+	*/
+	private static void loopJeu(){
 
 		while(true){
 			passerTour();
@@ -60,7 +117,7 @@ public class JeuVConsole{
 
 			afficherJeu();
 
-			String[] direction = {"Aucune", "G", "D", "H", "B"};
+			String[] direction = {"Aucune", "Gauche", "Droite", "Haut", "Bas"};
 			System.out.println("Direction de assam: "+direction[pion.getDirection()]);
 			int n;
 			while ((n = demanderNbDeplacement()) == -1 );
@@ -77,6 +134,9 @@ public class JeuVConsole{
 		}
 	}
 
+	/**
+	*	Verifie s'il le joueur actuel tombe sur un tapis et paye en consequence
+	*/
 	private static void verifPayement(){
 		int x,y, dime;
 		x=pion.getXPion()-1;
@@ -95,7 +155,10 @@ public class JeuVConsole{
 	}
 
 
-
+	/**
+	*	Methode pour demander deplacer assam et afficher des messages dans la console
+	*	@param n Nombre de deplacements
+	*/
 	private static void deplacerAssam(int n){
 		while(true){
 			int d;
@@ -190,13 +253,11 @@ public class JeuVConsole{
 	 		return -1;
 	 	}
 
-
-
 	}
 
 
 	/**
-	*	Permet de poser les tapis
+	*	Permet de poser les tapis en demandant la direction dans la console
 	*	@return true 
 	*	@return false si le joueur met un tapis en dehors du jeu
 	*/
@@ -207,6 +268,7 @@ public class JeuVConsole{
 	  	int posXTapis = 0, posYTapis = 0;
 	  	System.out.println(pion.getXPion());
 
+	  	//Pose du premier carre de tapis
 	  	try{
 		  	if(premiereCaseTapis == 1){
 		  		jeu.cases[pion.getXPion()-2][pion.getYPion()-1].setCouleurTapis(tour);
@@ -244,6 +306,7 @@ public class JeuVConsole{
 	  	afficherJeu();
 	  	System.out.println("Choisissez la deuxieme case");
 
+	  	//Pose du second petit carre de tapis
 	  	while(true){
 	  		int d = obtenirDirection();
 	  		//pour ne pas faire de demi tour ou erreur de d
@@ -279,29 +342,17 @@ public class JeuVConsole{
 
 
 	}
-
-
-
-
-	/*private static void fonctionASo(){
-		Fenetre f = new Fenetre();
-		Graphique G = new Graphique(jeu);
-		f.add(G);
-		f.addKeyListener(new Clavier(jeu.getAssam(),G));
-	}*/
 }
 
 
 
 
 
+	
 
-/*class Fenetre extends JFrame{
-	public Fenetre(){
-		super();
-		this.setSize(675,675);
-		this.setLocation(0,0);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
-	}
-}*/
+
+
+
+
+
+

@@ -56,3 +56,19 @@ public class Graphique extends JComponent{
     g.drawImage(arabe,assam.getXPion()*(this.getWidth()/9), assam.getYPion()*(this.getHeight()/9), this.getWidth()/9,this.getHeight()/9, null, this);
   }
 }
+
+/*class Fenetre extends JFrame{
+  public Fenetre(){
+    super();
+    this.setSize(675,675);
+    this.setLocation(0,0);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setVisible(true);
+  }
+}*/
+/*private static void fonctionASo(){
+    Fenetre f = new Fenetre();
+    Graphique G = new Graphique(jeu);
+    f.add(G);
+    f.addKeyListener(new Clavier(jeu.getAssam(),G));
+  }*/
