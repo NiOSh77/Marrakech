@@ -34,7 +34,7 @@ public class JeuVConsole{
 	}
 
 	public static void passerTour(){
-		if(tour<4){
+		if(tour<joueurs.length){
 			tour++;
 		}
 		else {
@@ -42,7 +42,7 @@ public class JeuVConsole{
 		}
 		for(int i=0;i<joueurElimine;i++){
 			if(joueurs[tour].getMonnaie()==0){
-				if(tour<4){
+				if(tour<joueurs.length){
 					tour++;
 				}
 				else {
@@ -56,6 +56,7 @@ public class JeuVConsole{
 
 		while(true){
 			passerTour();
+			System.out.println("Joueur "+tour+" joue");
 
 			afficherJeu();
 
@@ -65,7 +66,7 @@ public class JeuVConsole{
 			while ((n = demanderNbDeplacement()) == -1 );
 			System.out.println("On lance le de, vous obtenez: "+ n+"\nChoisissez une direction sans faire demi tour!");
 			deplacerAssam(n);
-			verifPayement();
+			
 
 			if(joueurElimine == 3){
 				passerTour();
@@ -77,17 +78,19 @@ public class JeuVConsole{
 	}
 
 	private static void verifPayement(){
-		int x,y;
-		x=pion.getXPion();
-		y=pion.getYPion();
+		int x,y, dime;
+		x=pion.getXPion()-1;
+		y=pion.getYPion()-1;
 		int caseInfoTapis = jeu.cases[x][y].getCouleurTapis();
 		if(caseInfoTapis == tour || caseInfoTapis == 0){
 			return;
 		}
 		else{
-			Joueur payeur = joueurs[tour];
-			Joueur paye = joueurs[caseInfoTapis];
-			pion.payerVraimentDime(payeur,paye,jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
+			dime = jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]);
+			Joueur payeur = joueurs[tour-1];
+			Joueur paye = joueurs[caseInfoTapis-1];
+			jeu.payerVraimentDime(payeur,paye,dime);
+			System.out.println("Joueur "+ (payeur.getNumJoueur()+1) + " paye "+dime +" au joueur "+(paye.getNumJoueur()+1));
 		}
 	}
 
@@ -104,6 +107,7 @@ public class JeuVConsole{
 				System.out.println("Assam est en pos " + pion.getXPion() + "  " + pion.getYPion());
 				System.out.println("Assam est sur un tapis :" + jeu.cases[pion.getXPion()-1][pion.getYPion()-1].getCouleurTapis());
 				afficherJeu();
+				verifPayement();
 				while(!poserTapis());
 
 				break;
@@ -119,7 +123,11 @@ public class JeuVConsole{
 
 
 	/**
-	*
+	*	Permet d'obtenir la direction sur la ligne de commande
+	*	@return 1 Gauche
+	*	@return 2 droite
+	*	@return 3 Haut
+	*	@return 4 Bas
 	*/
 	private static int obtenirDirection(){
 		while(true){
@@ -140,7 +148,9 @@ public class JeuVConsole{
 			}
 	}
 
-
+	/**
+	*	Affiche l'etat actuel du jeu
+	*/
 	private static void afficherJeu(){
 		for(int i = 0; i < 7; i++){
 				for (int j = 0; j < 7; j++){
@@ -156,19 +166,22 @@ public class JeuVConsole{
 	}
 
 
-
+	/**
+	*	Permet d'obtenir a la ligne de commande le nombre de deplacement
+	*	@return n Nombre choisit sur la ligne de commande
+	*	@return -1 Si ce n'est pas un nombre qui a ete ecrit sur la ligne de commande
+	*/
 	public static int demanderNbDeplacement(){
-
-		System.out.println("Choisissez le nombre de deplacement entre 1 et 4");
-		Scanner sc = new Scanner(System.in);
-	 	String tmp = sc.nextLine();
-	 	try{
+		try{
 	 		while(true){
+	 			System.out.println("Choisissez le nombre de deplacement entre 1 et 4");
+	 			Scanner sc = new Scanner(System.in);
+	 			String tmp = sc.nextLine();
 	 			int n = Integer.parseInt(tmp);
 	 			if(n>=1 && n<=4){
 	 				return n;
 	 			}
-	 			System.out.println("NON, mettez un entier entre 1 et 4");
+	 			System.out.println("Mettez un entier entre 1 et 4!");
 	 		}
 
 
@@ -181,6 +194,12 @@ public class JeuVConsole{
 
 	}
 
+
+	/**
+	*	Permet de poser les tapis
+	*	@return true 
+	*	@return false si le joueur met un tapis en dehors du jeu
+	*/
 	private  static boolean poserTapis(){
 		System.out.println("Choisisser une premiere case pour poser tapis");
 	  	int premiereCaseTapis = obtenirDirection();
@@ -190,25 +209,25 @@ public class JeuVConsole{
 
 	  	try{
 		  	if(premiereCaseTapis == 1){
-		  		jeu.cases[pion.getXPion()-2][pion.getYPion()-1].setCouleurTapis(1);
+		  		jeu.cases[pion.getXPion()-2][pion.getYPion()-1].setCouleurTapis(tour);
 		  		posXTapis = pion.getXPion()-2;
 		  		posYTapis = pion.getYPion()-1;
 		  	}
 
 		  	else if(premiereCaseTapis == 2){
-		  		jeu.cases[pion.getXPion()][pion.getYPion()-1].setCouleurTapis(1);
+		  		jeu.cases[pion.getXPion()][pion.getYPion()-1].setCouleurTapis(tour);
 		  		posXTapis = pion.getXPion();
 		  		posYTapis = pion.getYPion()-1;
 		  	}
 
 		  	else if(premiereCaseTapis == 3){
-		  		jeu.cases[pion.getXPion()-1][pion.getYPion()-2].setCouleurTapis(1);
+		  		jeu.cases[pion.getXPion()-1][pion.getYPion()-2].setCouleurTapis(tour);
 		  		posYTapis = pion.getYPion()-2;
 		  		posXTapis = pion.getXPion()-1;
 		  	}
 
 		  	else {
-		  		jeu.cases[pion.getXPion()-1][pion.getYPion()].setCouleurTapis(1);
+		  		jeu.cases[pion.getXPion()-1][pion.getYPion()].setCouleurTapis(tour);
 		  		posYTapis = pion.getYPion();
 		  		posXTapis = pion.getXPion()-1;
 		  	}
@@ -233,19 +252,19 @@ public class JeuVConsole{
 			} else {
 				try{
 				  	if(d == 1){
-				  		jeu.cases[posXTapis-1][posYTapis].setCouleurTapis(1);
+				  		jeu.cases[posXTapis-1][posYTapis].setCouleurTapis(tour);
 				  	}
 
 				  	else if(d == 2){
-				  		jeu.cases[posXTapis+1][posYTapis].setCouleurTapis(1);
+				  		jeu.cases[posXTapis+1][posYTapis].setCouleurTapis(tour);
 				  	}
 
 				  	else if(d == 3){
-				  		jeu.cases[posXTapis][posYTapis-1].setCouleurTapis(1);
+				  		jeu.cases[posXTapis][posYTapis-1].setCouleurTapis(tour);
 				  	}
 
 				  	else {
-				  		jeu.cases[posXTapis][posYTapis+1].setCouleurTapis(1);
+				  		jeu.cases[posXTapis][posYTapis+1].setCouleurTapis(tour);
 			  		}
 			  		break;
 	  			} catch (ArrayIndexOutOfBoundsException e){

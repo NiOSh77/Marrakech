@@ -90,20 +90,32 @@ public class StockageJeu{
 	public int payerDime(int couleur, int x, int y, int dime, boolean[][] visited){
 		dime++;
 		visited[x][y] = true;
-		if(cases[x+1][y].getCouleurTapis()==couleur && !visited[x+1][y]){
-			dime = payerDime(couleur,x+1,y,dime,visited);
+		if(x<6){
+			if(cases[x+1][y].getCouleurTapis()==couleur && !visited[x+1][y]){
+				dime = payerDime(couleur,x+1,y,dime,visited);
+			}
 		}
-		if(cases[x-1][y].getCouleurTapis()==couleur && !visited[x-1][y]){
-			dime = payerDime(couleur,x-1,y,dime,visited);
+		
+		if(x>0){
+			if(cases[x-1][y].getCouleurTapis()==couleur && !visited[x-1][y]){
+				dime = payerDime(couleur,x-1,y,dime,visited);
+			}
 		}
-		if(cases[x][y+1].getCouleurTapis()==couleur && !visited[x][y+1]){
-			dime = payerDime(couleur,x,y+1,dime,visited);
+		if(y<6){
+			if(cases[x][y+1].getCouleurTapis()==couleur && !visited[x][y+1]){
+				dime = payerDime(couleur,x,y+1,dime,visited);
+			}
 		}
-		if(cases[x][y-1].getCouleurTapis()==couleur && !visited[x][y-1]){
-			dime = payerDime(couleur,x,y-1,dime,visited);
+		if(y>0){
+			if(cases[x][y-1].getCouleurTapis()==couleur && !visited[x][y-1]){
+				dime = payerDime(couleur,x,y-1,dime,visited);
+			}
 		}
+		
 		return dime;
 	}
+
+	
 
 	public void payerVraimentDime(Joueur payeur, Joueur paye, int dime){
 		if(dime>=payeur.getMonnaie()){
