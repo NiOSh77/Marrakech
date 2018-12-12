@@ -45,7 +45,7 @@ public class JeuVConsole{
 	private static int joueurElimine;
 
 	/**
-	* Constructeur
+	*	Constructeur
 	*/
 	public JeuVConsole(){
 		int nb = demanderNbJoueurs();
@@ -107,11 +107,12 @@ public class JeuVConsole{
 	}
 
 	/**
-	*	Methode principale du jeu
+	*	Methode principale du jeu qui correspond a un tour de jeu
 	*/
 	private static void loopJeu(){
 
 		while(true){
+			AfficherEtatJoueurs();
 			passerTour();
 			System.out.println("Joueur "+tour+" joue");
 
@@ -125,11 +126,39 @@ public class JeuVConsole{
 			deplacerAssam(n);
 			
 
-			if(joueurElimine == 3){
+			if(joueurElimine == joueurs.length-1){
 				passerTour();
 				System.out.println("gg joueur" +tour);
 				return;
 			}
+
+			if(verifTapis()){
+				//methode resultat
+			}
+
+
+		}
+	}
+
+	private static boolean verifTapis(){
+		int compte = 0;
+		for(int i = 0; i<joueurs.length; i++){
+			if(joueurs[i].getTapisRest()==0 || joueurs[i].getMonnaie()==0){
+				compte++;
+			}
+		}
+		if(compte == joueurs.length){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	*	Affiche dans la console l'etat des joueurs
+	*/
+	private static void AfficherEtatJoueurs(){
+		for(int i = 0; i<joueurs.length; i++){
+			System.out.println("Le joueur "+ (i+1) +" a "+ joueurs[i].getMonnaie() + " pieces et " + joueurs[i].getTapisRest() + " tapis");
 
 		}
 	}
@@ -166,7 +195,7 @@ public class JeuVConsole{
 			d = obtenirDirection();
 			if(pion.deplacerAssam(n, d)){
 
-				System.out.println("\n\n");
+				System.out.println("\n");
 				System.out.println("Assam est en pos " + pion.getXPion() + "  " + pion.getYPion());
 				System.out.println("Assam est sur un tapis :" + jeu.cases[pion.getXPion()-1][pion.getYPion()-1].getCouleurTapis());
 				afficherJeu();
@@ -262,11 +291,10 @@ public class JeuVConsole{
 	*	@return false si le joueur met un tapis en dehors du jeu
 	*/
 	private  static boolean poserTapis(){
-		System.out.println("Choisisser une premiere case pour poser tapis");
+		System.out.println("Choisisser une premiere case pour poser la premiere partie du tapis");
 	  	int premiereCaseTapis = obtenirDirection();
 	  	int direction = premiereCaseTapis;
 	  	int posXTapis = 0, posYTapis = 0;
-	  	System.out.println(pion.getXPion());
 
 	  	//Pose du premier carre de tapis
 	  	try{
@@ -294,7 +322,6 @@ public class JeuVConsole{
 		  		posXTapis = pion.getXPion()-1;
 		  	}
 
-		  	System.out.println("X: " +posXTapis + " Y: "+ posYTapis);
 	  	} catch (ArrayIndexOutOfBoundsException e){
 	  		System.out.println("Vous ne pouvez pas placer un tapis en dehors du jeu");
 	  		return false;
@@ -337,7 +364,7 @@ public class JeuVConsole{
 			}
 
 	  	}
-
+	  	joueurs[tour-1].useTapis();
 	  	return true;
 
 

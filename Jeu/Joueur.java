@@ -87,10 +87,16 @@ public class Joueur{
 
   /**
   *Accesseur en ecriture de tapisRest
+  */
+  public void useTapis(){
+   this.tapisRest--;
+  }
+
+  /**Accesseur 2 en ecriture de tapisRest
   *@param tapisRest
   */
-  public void setTapisRest(int t){
-   this.tapisRest = t;
+  public void setTapis(int t){
+    this.tapisRest = t;
   }
 
   /**
