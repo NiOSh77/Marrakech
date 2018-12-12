@@ -19,6 +19,7 @@ public class JeuVConsole{
 	private static Assam pion;
 	private static int tour;
 	private static Joueur[] joueurs;
+	private static int joueurElimine;
 
 
 	public JeuVConsole(){
@@ -26,37 +27,56 @@ public class JeuVConsole{
 		pion = jeu.getAssam();
 		tour = 0;
 		joueurs = jeu.getJoueurs();
+		joueurElimine=0;
 		fonctionABen();
-		
+
 
 	}
 
-
-	private static void fonctionABen(){
-		while(true){
-			if(tour <4){
-				tour++;
+	public static void passerTour(){
+		if(tour<4){
+			tour++;
+		}
+		else {
+			tour = 1;
+		}
+		for(int i=0;i<joueurElimine;i++){
+			if(joueurs[tour].getMonnaie()==0){
+				if(tour<4){
+					tour++;
+				}
+				else {
+					tour = 1;
+				}
 			}
-			else{
-				tour =1;
-			}
-
-			afficherJeu();
-
-			String[] direction = {"Aucune", "Gauche", "Droite", "Haut", "Bas"};
-			System.out.println("Direction de assam: "+direction[pion.getDirection()]);
-			int n;
-			while ((n = demanderNbDeplacement()) == -1 );
-			System.out.println("Vous vous deplacerez de: "+ n+"\nChoisissez une direction sans faire demi tour!");
-			deplacerAssam(n);
-			//verifPayement();
-
-
-			
 		}
 	}
 
-	/*private static void verifPayement(){
+	private static void fonctionABen(){
+
+		while(true){
+			passerTour();
+
+			afficherJeu();
+
+			String[] direction = {"Aucune", "G", "D", "H", "B"};
+			System.out.println("Direction de assam: "+direction[pion.getDirection()]);
+			int n;
+			while ((n = demanderNbDeplacement()) == -1 );
+			System.out.println("On lance le de, vous obtenez: "+ n+"\nChoisissez une direction sans faire demi tour!");
+			deplacerAssam(n);
+			verifPayement();
+
+			if(joueurElimine == 3){
+				passerTour();
+				System.out.println("gg joueur" +tour);
+				return;
+			}
+
+		}
+	}
+
+	private static void verifPayement(){
 		int x,y;
 		x=pion.getXPion();
 		y=pion.getYPion();
@@ -67,24 +87,26 @@ public class JeuVConsole{
 		else{
 			Joueur payeur = joueurs[tour];
 			Joueur paye = joueurs[caseInfoTapis];
-		//	pion.payerVraimentDime(payeur,paye,jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
+			pion.payerVraimentDime(payeur,paye,jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]));
 		}
-	}*/
+	}
+
+
 
 	private static void deplacerAssam(int n){
 		while(true){
 			int d;
-			
+
 			d = obtenirDirection();
 			if(pion.deplacerAssam(n, d)){
 
 				System.out.println("\n\n");
 				System.out.println("Assam est en pos " + pion.getXPion() + "  " + pion.getYPion());
-				System.out.println("Assam est sur un tapis :" + jeu.cases[pion.getXPion()-1][pion.getYPion()-1].getCouleurTapis());	
+				System.out.println("Assam est sur un tapis :" + jeu.cases[pion.getXPion()-1][pion.getYPion()-1].getCouleurTapis());
 				afficherJeu();
 				while(!poserTapis());
-	
-				break;	
+
+				break;
 			} else {
 				System.out.println("Vous ne pouvez pas choisir cette direction!");
 			}
@@ -103,7 +125,7 @@ public class JeuVConsole{
 		while(true){
 				Scanner sc = new Scanner(System.in);
 	 			String tmp = sc.nextLine();
-	 			
+
 				if(tmp.equals("g")){
 					return 1;
 				} else if(tmp.equals("d")){
@@ -115,10 +137,10 @@ public class JeuVConsole{
 				} else {
 					System.out.println("Tapez g, d, h, b");
 				}
-			} 
+			}
 	}
 
-	
+
 	private static void afficherJeu(){
 		for(int i = 0; i < 7; i++){
 				for (int j = 0; j < 7; j++){
@@ -133,7 +155,7 @@ public class JeuVConsole{
 			}
 	}
 
-	
+
 
 	public static int demanderNbDeplacement(){
 
@@ -148,7 +170,7 @@ public class JeuVConsole{
 	 			}
 	 			System.out.println("NON, mettez un entier entre 1 et 4");
 	 		}
-	 		
+
 
 	 	} catch (NumberFormatException e){
 	 		System.out.println("Mettez un nombre!");
@@ -171,7 +193,7 @@ public class JeuVConsole{
 		  		jeu.cases[pion.getXPion()-2][pion.getYPion()-1].setCouleurTapis(1);
 		  		posXTapis = pion.getXPion()-2;
 		  		posYTapis = pion.getYPion()-1;
-		  	} 
+		  	}
 
 		  	else if(premiereCaseTapis == 2){
 		  		jeu.cases[pion.getXPion()][pion.getYPion()-1].setCouleurTapis(1);
@@ -183,7 +205,7 @@ public class JeuVConsole{
 		  		jeu.cases[pion.getXPion()-1][pion.getYPion()-2].setCouleurTapis(1);
 		  		posYTapis = pion.getYPion()-2;
 		  		posXTapis = pion.getXPion()-1;
-		  	} 
+		  	}
 
 		  	else {
 		  		jeu.cases[pion.getXPion()-1][pion.getYPion()].setCouleurTapis(1);
@@ -197,7 +219,7 @@ public class JeuVConsole{
 	  		return false;
 	  	}
 
-	  	
+
 
 
 	  	afficherJeu();
@@ -212,7 +234,7 @@ public class JeuVConsole{
 				try{
 				  	if(d == 1){
 				  		jeu.cases[posXTapis-1][posYTapis].setCouleurTapis(1);
-				  	} 
+				  	}
 
 				  	else if(d == 2){
 				  		jeu.cases[posXTapis+1][posYTapis].setCouleurTapis(1);
@@ -220,7 +242,7 @@ public class JeuVConsole{
 
 				  	else if(d == 3){
 				  		jeu.cases[posXTapis][posYTapis-1].setCouleurTapis(1);
-				  	} 
+				  	}
 
 				  	else {
 				  		jeu.cases[posXTapis][posYTapis+1].setCouleurTapis(1);
