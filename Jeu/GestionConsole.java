@@ -122,4 +122,17 @@ public class GestionConsole{
 				}
 			}
 	}
+
+	public void quelJoueurJoue(int num){
+		System.out.println("C'est le tour du joueur " + num);
+	}
+
+	public void afficherDirectionAssam(){
+		String[] direction = {"Aucune", "Gauche", "Droite", "Haut", "Bas"};
+		System.out.println("Direction de Assam: "+direction[jeu.getAssam().getDirection()]);
+	}
+
+	public void afficherGagnant(int num){
+		System.out.println("Bravo au joueur "+ num);
+	}
 }

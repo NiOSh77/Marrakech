@@ -79,21 +79,19 @@ public class JeuVConsole{
 		while(true){
 			console.afficherEtatJoueurs();
 			passerTour();
-			System.out.println("Joueur "+tour+" joue");
-
+			console.quelJoueurJoue(tour);
 			console.afficherJeu();
+			console.afficherDirectionAssam();
 
-			String[] direction = {"Aucune", "Gauche", "Droite", "Haut", "Bas"};
-			System.out.println("Direction de assam: "+direction[jeu.getAssam().getDirection()]);
 			int n;
 			while ((n = console.demanderNbDeplacement()) == -1 );
-			System.out.println("On lance le de, vous obtenez: "+ n+"\nChoisissez une direction sans faire demi tour!");
+			System.out.println("Vous avez choisi: "+ n+"\nChoisissez une direction sans faire demi tour!");
 			demanderDeplacerAssam(n);
 			
 
 			if(joueurElimine == jeu.getJoueurs().length-1){
 				passerTour();
-				System.out.println("gg joueur" +tour);
+				console.afficherGagnant(tour);
 				return;
 			}
 
@@ -152,7 +150,7 @@ public class JeuVConsole{
 
 				System.out.println("\n");
 				System.out.println("Assam est en pos " + jeu.getAssam().getXPion() + "  " + jeu.getAssam().getYPion());
-				System.out.println("Assam est sur un tapis :" + jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-1].getCouleurTapis());
+				System.out.println("Assam est sur un tapis: " + jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-1].getCouleurTapis());
 				console.afficherJeu();
 				verifPayement();
 				while(!poserTapis());
