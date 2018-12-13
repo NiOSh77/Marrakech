@@ -36,7 +36,7 @@ public class Assam{
 	/**
 	*	Methode pour deplacer en X le pion
 	*	@param b 	true on incremente de 1 posXPion
-	*				false on decremente de 1 posXPion
+	*				/false on decremente de 1 posXPion
 	*/
 	public static void changePosXPion(boolean b){
 		if(b){
@@ -56,7 +56,7 @@ public class Assam{
 	/**
 	*	Methode pour deplacer en Y le pion
 	*	@param b 	true on incremente de 1 posYPion
-	*				false on le decremente
+	*				/false on le decremente
 	*/
 	public static void changePosYPion(boolean b){
 		if(b){

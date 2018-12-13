@@ -14,6 +14,7 @@ MAIN = Main
 
 Main.class : Main.java Jeu/JeuVConsole.class
 Jeu/Assam.class : Jeu/Assam.java
+Jeu/GestionConsole.class : Jeu/GestionConsole.java Jeu/StockageJeu.class
 Jeu/Case.class : Jeu/Case.java
 Jeu/Joueur.class : Jeu/Joueur.java
 Jeu/Partie.class : Jeu/Partie.java

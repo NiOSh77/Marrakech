@@ -8,9 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.lang.ArrayIndexOutOfBoundsException;
 
-import IHM.*;
-
-
 /**
 *	Gere le jeu dans la console
 *	@author 
@@ -24,20 +21,15 @@ public class JeuVConsole{
 	private static StockageJeu jeu;
 
 	/**
-	*	Le pion Assam
+	*	Pour gerer les affichages et demandes a la console
 	*/
-	private static Assam pion;
+	private static GestionConsole console;
 
 	/**
 	*	Permet de savoir qui joue
 	*	Prend une valeur entre 1 et 4
 	*/
 	private static int tour;
-
-	/**
-	*	Liste des joueurs
-	*/
-	private static Joueur[] joueurs;
 
 	/**
 	*	Nombre de joueurs elimines
@@ -48,39 +40,12 @@ public class JeuVConsole{
 	*	Constructeur
 	*/
 	public JeuVConsole(){
-		int nb = demanderNbJoueurs();
-		jeu = StockageJeu.initialize(nb);
-		pion = jeu.getAssam();
+		System.out.println("Bienvenu dans le jeu du Marrakech, pour choisir une direction et vous deplacer, utilisez h pour haut, b pour bas, g pour gauche et d pour droite");
+		jeu = StockageJeu.initialize(console.demanderNbJoueurs());
 		tour = 0;
-		joueurs = jeu.getJoueurs();
 		joueurElimine=0;
-		loopJeu();
-
-
-	}
-
-	/**
-	*	Demande le nombre de joueur a la ligne de commande
-	*	@return nb Le nombre de joueurs
-	*/
-	public static int demanderNbJoueurs(){
-		while(true){
-			try{
-	 		
-	 			System.out.println("Choisissez le nombre de joueurs entre 3 et 4");
-	 			Scanner sc = new Scanner(System.in);
-	 			String tmp = sc.nextLine();
-	 			int n = Integer.parseInt(tmp);
-	 			if(n>=3 && n<=4){
-	 				return n;
-	 			}
-	 			System.out.println("Mettez un entier entre 3 et 4!");
-
-
-	 		} catch (NumberFormatException e){
-	 			System.out.println("Mettez un nombre!");
-	 		}
-	 	}
+		console = new GestionConsole(jeu);
+		tourJeu();
 
 	}
 
@@ -88,15 +53,15 @@ public class JeuVConsole{
 	*	Change valeur de tour pour savoir qu'elle joueur joue
 	*/
 	public static void passerTour(){
-		if(tour<joueurs.length){
+		if(tour<jeu.getJoueurs().length){
 			tour++;
 		}
 		else {
 			tour = 1;
 		}
 		for(int i=0;i<joueurElimine;i++){
-			if(joueurs[tour].getMonnaie()==0){
-				if(tour<joueurs.length){
+			if(jeu.getJoueurs()[tour].getMonnaie()==0){
+				if(tour<jeu.getJoueurs().length){
 					tour++;
 				}
 				else {
@@ -109,24 +74,24 @@ public class JeuVConsole{
 	/**
 	*	Methode principale du jeu qui correspond a un tour de jeu
 	*/
-	private static void loopJeu(){
+	private static void tourJeu(){
 
 		while(true){
-			AfficherEtatJoueurs();
+			console.afficherEtatJoueurs();
 			passerTour();
 			System.out.println("Joueur "+tour+" joue");
 
-			afficherJeu();
+			console.afficherJeu();
 
 			String[] direction = {"Aucune", "Gauche", "Droite", "Haut", "Bas"};
-			System.out.println("Direction de assam: "+direction[pion.getDirection()]);
+			System.out.println("Direction de assam: "+direction[jeu.getAssam().getDirection()]);
 			int n;
-			while ((n = demanderNbDeplacement()) == -1 );
+			while ((n = console.demanderNbDeplacement()) == -1 );
 			System.out.println("On lance le de, vous obtenez: "+ n+"\nChoisissez une direction sans faire demi tour!");
-			deplacerAssam(n);
+			demanderDeplacerAssam(n);
 			
 
-			if(joueurElimine == joueurs.length-1){
+			if(joueurElimine == jeu.getJoueurs().length-1){
 				passerTour();
 				System.out.println("gg joueur" +tour);
 				return;
@@ -142,25 +107,15 @@ public class JeuVConsole{
 
 	private static boolean verifTapis(){
 		int compte = 0;
-		for(int i = 0; i<joueurs.length; i++){
-			if(joueurs[i].getTapisRest()==0 || joueurs[i].getMonnaie()==0){
+		for(int i = 0; i<jeu.getJoueurs().length; i++){
+			if(jeu.getJoueurs()[i].getTapisRest()==0 || jeu.getJoueurs()[i].getMonnaie()==0){
 				compte++;
 			}
 		}
-		if(compte == joueurs.length){
+		if(compte == jeu.getJoueurs().length){
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	*	Affiche dans la console l'etat des joueurs
-	*/
-	private static void AfficherEtatJoueurs(){
-		for(int i = 0; i<joueurs.length; i++){
-			System.out.println("Le joueur "+ (i+1) +" a "+ joueurs[i].getMonnaie() + " pieces et " + joueurs[i].getTapisRest() + " tapis");
-
-		}
 	}
 
 	/**
@@ -168,16 +123,16 @@ public class JeuVConsole{
 	*/
 	private static void verifPayement(){
 		int x,y, dime;
-		x=pion.getXPion()-1;
-		y=pion.getYPion()-1;
+		x=jeu.getAssam().getXPion()-1;
+		y=jeu.getAssam().getYPion()-1;
 		int caseInfoTapis = jeu.cases[x][y].getCouleurTapis();
 		if(caseInfoTapis == tour || caseInfoTapis == 0){
 			return;
 		}
 		else{
 			dime = jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]);
-			Joueur payeur = joueurs[tour-1];
-			Joueur paye = joueurs[caseInfoTapis-1];
+			Joueur payeur = jeu.getJoueurs()[tour-1];
+			Joueur paye = jeu.getJoueurs()[caseInfoTapis-1];
 			jeu.payerVraimentDime(payeur,paye,dime);
 			System.out.println("Joueur "+ (payeur.getNumJoueur()+1) + " paye "+dime +" au joueur "+(paye.getNumJoueur()+1));
 		}
@@ -185,20 +140,20 @@ public class JeuVConsole{
 
 
 	/**
-	*	Methode pour demander deplacer assam et afficher des messages dans la console
+	*	Methode pour demander la direction pour deplacer assam et afficher des messages dans la console
 	*	@param n Nombre de deplacements
 	*/
-	private static void deplacerAssam(int n){
+	private static void demanderDeplacerAssam(int n){
 		while(true){
 			int d;
 
-			d = obtenirDirection();
-			if(pion.deplacerAssam(n, d)){
+			d = console.obtenirDirection();
+			if(jeu.getAssam().deplacerAssam(n, d)){
 
 				System.out.println("\n");
-				System.out.println("Assam est en pos " + pion.getXPion() + "  " + pion.getYPion());
-				System.out.println("Assam est sur un tapis :" + jeu.cases[pion.getXPion()-1][pion.getYPion()-1].getCouleurTapis());
-				afficherJeu();
+				System.out.println("Assam est en pos " + jeu.getAssam().getXPion() + "  " + jeu.getAssam().getYPion());
+				System.out.println("Assam est sur un tapis :" + jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-1].getCouleurTapis());
+				console.afficherJeu();
 				verifPayement();
 				while(!poserTapis());
 
@@ -213,78 +168,6 @@ public class JeuVConsole{
 		}
 	}
 
-
-	/**
-	*	Permet d'obtenir la direction sur la ligne de commande
-	*	@return 1 Gauche
-	*	@return 2 droite
-	*	@return 3 Haut
-	*	@return 4 Bas
-	*/
-	private static int obtenirDirection(){
-		while(true){
-				Scanner sc = new Scanner(System.in);
-	 			String tmp = sc.nextLine();
-
-				if(tmp.equals("g")){
-					return 1;
-				} else if(tmp.equals("d")){
-					return 2;
-				} else if(tmp.equals("h")){
-					return 3;
-				} else if(tmp.equals("b")){
-					return 4;
-				} else {
-					System.out.println("Tapez g, d, h, b");
-				}
-			}
-	}
-
-	/**
-	*	Affiche l'etat actuel du jeu
-	*/
-	private static void afficherJeu(){
-		for(int i = 0; i < 7; i++){
-				for (int j = 0; j < 7; j++){
-
-					if(pion.getXPion()-1 == j && pion.getYPion()-1 == i){
-						System.out.print("A ");
-					} else {
-						System.out.print(jeu.cases[j][i].getCouleurTapis()+" ");
-					}
-				}
-				System.out.print("\n");
-			}
-	}
-
-
-	/**
-	*	Permet d'obtenir a la ligne de commande le nombre de deplacement
-	*	@return n Nombre choisit sur la ligne de commande
-	*	@return -1 Si ce n'est pas un nombre qui a ete ecrit sur la ligne de commande
-	*/
-	public static int demanderNbDeplacement(){
-		try{
-	 		while(true){
-	 			System.out.println("Choisissez le nombre de deplacement entre 1 et 4");
-	 			Scanner sc = new Scanner(System.in);
-	 			String tmp = sc.nextLine();
-	 			int n = Integer.parseInt(tmp);
-	 			if(n>=1 && n<=4){
-	 				return n;
-	 			}
-	 			System.out.println("Mettez un entier entre 1 et 4!");
-	 		}
-
-
-	 	} catch (NumberFormatException e){
-	 		System.out.println("Mettez un nombre!");
-	 		return -1;
-	 	}
-
-	}
-
-
 	/**
 	*	Permet de poser les tapis en demandant la direction dans la console
 	*	@return true 
@@ -292,34 +175,34 @@ public class JeuVConsole{
 	*/
 	private  static boolean poserTapis(){
 		System.out.println("Choisisser une premiere case pour poser la premiere partie du tapis");
-	  	int premiereCaseTapis = obtenirDirection();
+	  	int premiereCaseTapis = console.obtenirDirection();
 	  	int direction = premiereCaseTapis;
 	  	int posXTapis = 0, posYTapis = 0;
 
 	  	//Pose du premier carre de tapis
 	  	try{
 		  	if(premiereCaseTapis == 1){
-		  		jeu.cases[pion.getXPion()-2][pion.getYPion()-1].setCouleurTapis(tour);
-		  		posXTapis = pion.getXPion()-2;
-		  		posYTapis = pion.getYPion()-1;
+		  		jeu.cases[jeu.getAssam().getXPion()-2][jeu.getAssam().getYPion()-1].setCouleurTapis(tour);
+		  		posXTapis = jeu.getAssam().getXPion()-2;
+		  		posYTapis = jeu.getAssam().getYPion()-1;
 		  	}
 
 		  	else if(premiereCaseTapis == 2){
-		  		jeu.cases[pion.getXPion()][pion.getYPion()-1].setCouleurTapis(tour);
-		  		posXTapis = pion.getXPion();
-		  		posYTapis = pion.getYPion()-1;
+		  		jeu.cases[jeu.getAssam().getXPion()][jeu.getAssam().getYPion()-1].setCouleurTapis(tour);
+		  		posXTapis = jeu.getAssam().getXPion();
+		  		posYTapis = jeu.getAssam().getYPion()-1;
 		  	}
 
 		  	else if(premiereCaseTapis == 3){
-		  		jeu.cases[pion.getXPion()-1][pion.getYPion()-2].setCouleurTapis(tour);
-		  		posYTapis = pion.getYPion()-2;
-		  		posXTapis = pion.getXPion()-1;
+		  		jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-2].setCouleurTapis(tour);
+		  		posYTapis = jeu.getAssam().getYPion()-2;
+		  		posXTapis = jeu.getAssam().getXPion()-1;
 		  	}
 
 		  	else {
-		  		jeu.cases[pion.getXPion()-1][pion.getYPion()].setCouleurTapis(tour);
-		  		posYTapis = pion.getYPion();
-		  		posXTapis = pion.getXPion()-1;
+		  		jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()].setCouleurTapis(tour);
+		  		posYTapis = jeu.getAssam().getYPion();
+		  		posXTapis = jeu.getAssam().getXPion()-1;
 		  	}
 
 	  	} catch (ArrayIndexOutOfBoundsException e){
@@ -330,12 +213,12 @@ public class JeuVConsole{
 
 
 
-	  	afficherJeu();
+	  	console.afficherJeu();
 	  	System.out.println("Choisissez la deuxieme case");
 
 	  	//Pose du second petit carre de tapis
 	  	while(true){
-	  		int d = obtenirDirection();
+	  		int d = console.obtenirDirection();
 	  		//pour ne pas faire de demi tour ou erreur de d
 			if(direction == 1 &&  d == 2 || direction == 2 && d == 1 || direction == 3 && d == 4 || direction == 4 && d == 3 || d<1 || d>4){
 				System.out.println("Impossible de choisir cette case!");
@@ -364,22 +247,9 @@ public class JeuVConsole{
 			}
 
 	  	}
-	  	joueurs[tour-1].useTapis();
+	  	jeu.getJoueurs()[tour-1].useTapis();
 	  	return true;
 
 
 	}
 }
-
-
-
-
-
-	
-
-
-
-
-
-
-
