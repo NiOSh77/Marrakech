@@ -49,7 +49,7 @@ public class Lampe{
    * Methode pour verifier que les coordonées du joueur sont les même que celle de la lampe
    * @param x position du assam x
    * @param y position de assam y
-   * @return true si la lampe et assam sont sur la même case, sinon false
+   * @return true si la lampe et assam sont sur la meme case, sinon false
   */
   public boolean verifierJoueur(int x, int y){
     if(this.posXPion == x && this.posYPion == y){
