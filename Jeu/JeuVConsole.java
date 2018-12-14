@@ -113,7 +113,7 @@ public class JeuVConsole{
 	/**
 	* Statistique a la fin de la partie
 	*/
-	private void statistique(){
+	private static void statistique(){
 		for(int i = 0; i<7; i++){
 			for(int j = 0; j<7; j++){
 				for(int l=0; l<jeu.getJoueurs().length; l++){
