@@ -10,7 +10,7 @@ import java.lang.ArrayIndexOutOfBoundsException;
 
 /**
 *	Gere le jeu dans la console
-*	@author 
+*	@author
 */
 
 public class JeuVConsole{
@@ -41,7 +41,7 @@ public class JeuVConsole{
 	*/
 	public JeuVConsole(){
 		for(int i = 0; i < 8; i++){
-		System.out.println("*");
+			System.out.println("*");
 		}
 
 		console.afficherMessageBienvenu();
@@ -49,7 +49,7 @@ public class JeuVConsole{
 		console = new GestionConsole(jeu);
 		tour = 0;
 		joueurElimine=0;
-		
+
 		tourJeu();
 
 	}
@@ -90,10 +90,10 @@ public class JeuVConsole{
 
 			int n;
 			while ((n = console.demanderNbDeplacement()) == -1 );
-			
+
 			console.afficherDirectionChoisie(n);
 			demanderDeplacerAssam(n);
-			
+
 
 			if(joueurElimine == jeu.getJoueurs().length-1){
 				passerTour();
@@ -102,10 +102,32 @@ public class JeuVConsole{
 			}
 
 			if(verifTapis()){
-				
+				statistique();
+				return;
 			}
 
 
+		}
+	}
+
+	/**
+	* Statistique à la fin de la partie
+	*/
+	private void statistique(){
+		for(int i = 0; i<7; i++){
+			for(int j = 0; j<7; j++){
+				for(int l=0; l<jeu.getJoueurs().length; l++){
+					if(jeu.cases[i][j].getCouleurTapis() == jeu.getJoueurs()[l].getNumJoueur()){
+						jeu.getJoueurs()[l].setTapis(jeu.getJoueurs()[l].getTapisRest()+1);
+					}
+				}
+			}
+		}
+		Joueur j;
+		System.out.println("// Fin de la partie //");
+		for(int i=0; i<jeu.getJoueurs().length; i++) {
+			j =jeu.getJoueurs()[i];
+			System.out.println("Joueur "+j.getNumJoueur()+" a obtenue "+j.getTapisRest()+j.getMonnaie()+" points" );
 		}
 	}
 
@@ -168,7 +190,7 @@ public class JeuVConsole{
 				break;
 			} else {
 				console.afficherImpossibleChoisirDirection();
-				
+
 			}
 
 
@@ -179,85 +201,85 @@ public class JeuVConsole{
 
 	/**
 	*	Permet de poser les tapis en demandant la direction dans la console
-	*	@return true 
+	*	@return true
 	*	@return false si le joueur met un tapis en dehors du jeu
 	*/
 	private  static boolean poserTapis(){
 		System.out.println("Choisisser une premiere case pour poser la premiere partie du tapis");
-	  	int premiereCaseTapis = console.obtenirDirection();
-	  	int direction = premiereCaseTapis;
-	  	int posXTapis = 0, posYTapis = 0;
+		int premiereCaseTapis = console.obtenirDirection();
+		int direction = premiereCaseTapis;
+		int posXTapis = 0, posYTapis = 0;
 
-	  	//Pose du premier carre de tapis
-	  	try{
-		  	if(premiereCaseTapis == 1){
-		  		jeu.cases[jeu.getAssam().getXPion()-2][jeu.getAssam().getYPion()-1].setCouleurTapis(tour);
-		  		posXTapis = jeu.getAssam().getXPion()-2;
-		  		posYTapis = jeu.getAssam().getYPion()-1;
-		  	}
+		//Pose du premier carre de tapis
+		try{
+			if(premiereCaseTapis == 1){
+				jeu.cases[jeu.getAssam().getXPion()-2][jeu.getAssam().getYPion()-1].setCouleurTapis(tour);
+				posXTapis = jeu.getAssam().getXPion()-2;
+				posYTapis = jeu.getAssam().getYPion()-1;
+			}
 
-		  	else if(premiereCaseTapis == 2){
-		  		jeu.cases[jeu.getAssam().getXPion()][jeu.getAssam().getYPion()-1].setCouleurTapis(tour);
-		  		posXTapis = jeu.getAssam().getXPion();
-		  		posYTapis = jeu.getAssam().getYPion()-1;
-		  	}
+			else if(premiereCaseTapis == 2){
+				jeu.cases[jeu.getAssam().getXPion()][jeu.getAssam().getYPion()-1].setCouleurTapis(tour);
+				posXTapis = jeu.getAssam().getXPion();
+				posYTapis = jeu.getAssam().getYPion()-1;
+			}
 
-		  	else if(premiereCaseTapis == 3){
-		  		jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-2].setCouleurTapis(tour);
-		  		posYTapis = jeu.getAssam().getYPion()-2;
-		  		posXTapis = jeu.getAssam().getXPion()-1;
-		  	}
+			else if(premiereCaseTapis == 3){
+				jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-2].setCouleurTapis(tour);
+				posYTapis = jeu.getAssam().getYPion()-2;
+				posXTapis = jeu.getAssam().getXPion()-1;
+			}
 
-		  	else {
-		  		jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()].setCouleurTapis(tour);
-		  		posYTapis = jeu.getAssam().getYPion();
-		  		posXTapis = jeu.getAssam().getXPion()-1;
-		  	}
+			else {
+				jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()].setCouleurTapis(tour);
+				posYTapis = jeu.getAssam().getYPion();
+				posXTapis = jeu.getAssam().getXPion()-1;
+			}
 
-	  	} catch (ArrayIndexOutOfBoundsException e){
-	  		console.afficherImpossiblePoserTapis();
-	  		return false;
-	  	}
-
-
+		} catch (ArrayIndexOutOfBoundsException e){
+			console.afficherImpossiblePoserTapis();
+			return false;
+		}
 
 
-	  	console.afficherJeu();
-	  	System.out.println("Choisissez la deuxieme case");
 
-	  	//Pose du second petit carre de tapis
-	  	while(true){
-	  		int d = console.obtenirDirection();
-	  		//pour ne pas faire de demi tour ou erreur de d
+
+		console.afficherJeu();
+		System.out.println("Choisissez la deuxieme case");
+
+		//Pose du second petit carre de tapis
+		while(true){
+			int d = console.obtenirDirection();
+			//pour ne pas faire de demi tour ou erreur de d
 			if(direction == 1 &&  d == 2 || direction == 2 && d == 1 || direction == 3 && d == 4 || direction == 4 && d == 3 || d<1 || d>4){
 				console.afficherImpossibleChoisirDirection();
 			} else {
 				try{
-				  	if(d == 1){
-				  		jeu.cases[posXTapis-1][posYTapis].setCouleurTapis(tour);
-				  	}
+					if(d == 1){
+						jeu.cases[posXTapis-1][posYTapis].setCouleurTapis(tour);
+					}
 
-				  	else if(d == 2){
-				  		jeu.cases[posXTapis+1][posYTapis].setCouleurTapis(tour);
-				  	}
+					else if(d == 2){
+						jeu.cases[posXTapis+1][posYTapis].setCouleurTapis(tour);
+					}
 
-				  	else if(d == 3){
-				  		jeu.cases[posXTapis][posYTapis-1].setCouleurTapis(tour);
-				  	}
+					else if(d == 3){
+						jeu.cases[posXTapis][posYTapis-1].setCouleurTapis(tour);
+					}
 
-				  	else {
-				  		jeu.cases[posXTapis][posYTapis+1].setCouleurTapis(tour);
-			  		}
-			  		break;
-	  			} catch (ArrayIndexOutOfBoundsException e){
-			  		console.afficherImpossiblePoserTapis();
-	  			}
+					else {
+						jeu.cases[posXTapis][posYTapis+1].setCouleurTapis(tour);
+					}
+					break;
+				} catch (ArrayIndexOutOfBoundsException e){
+					console.afficherImpossiblePoserTapis();
+				}
 
 			}
 
-	  	}
-	  	jeu.getJoueurs()[tour-1].useTapis();
-	  	return true;
+		}
+		jeu.getJoueurs()[tour-1].useTapis();
+		return true;
 
 
 	}

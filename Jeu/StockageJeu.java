@@ -47,7 +47,7 @@ public class StockageJeu{
 		initialiseJoueurs(nbJoueur);
 
 		//initialise Assam
-		pion = new Assam();
+		pion = new Assam(lampe);
 
 	}
 

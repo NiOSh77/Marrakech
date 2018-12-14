@@ -13,7 +13,7 @@ MAIN = Main
 ### REGLES ESSENTIELLES ###
 
 Main.class : Main.java Jeu/JeuVConsole.class
-Jeu/Assam.class : Jeu/Assam.java
+Jeu/Assam.class : Jeu/Assam.java Jeu/Lampe.class
 Jeu/Lampe.class : Jeu/Lampe.java
 Jeu/GestionConsole.class : Jeu/GestionConsole.java Jeu/StockageJeu.class
 Jeu/Case.class : Jeu/Case.java
