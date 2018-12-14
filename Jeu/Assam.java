@@ -24,12 +24,19 @@ public class Assam{
 	private int posYPion;
 
 	/**
-	*	Constructeur
+	*	Lampe du jeu
 	*/
-	public Assam(){
+	private Lampe lampe;
+
+	/**
+	*	Constructeur
+	*	@param lampe
+	*/
+	public Assam(Lampe lampe){
 		posXPion = 4;
 		posYPion = 4;
 		direction = 0;
+		this.lampe = lampe;
 	}
 
 

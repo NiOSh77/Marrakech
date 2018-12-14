@@ -2,7 +2,7 @@ package Jeu;
 
 /**
 *	Classe represenant l'etat du jeu'
-*	@author Ranto
+*	@author Sofian
 */
 
 public class StockageJeu{
@@ -22,6 +22,10 @@ public class StockageJeu{
 	*/
 	private static Assam pion;
 
+	/**
+	*	Represente la lampe
+	*/
+	private Lampe lampe;
 
 	/**
 	*	Represente la grille du jeu
@@ -36,6 +40,7 @@ public class StockageJeu{
 		//initialise la grille
 		cases = new Case[7][7];
 		initialiseCases();
+		lampe = new Lampe();
 
 		//initialise les joueurs
 		joueurs = new Joueur[nbJoueur];
@@ -158,6 +163,13 @@ public class StockageJeu{
 	*/
 	public static Joueur[] getJoueurs(){
 		return joueurs;
+	}
+
+	/**
+	*	Obtenir la lampe
+	*/
+	public Lampe getLampe(){
+		return lampe;
 	}
 
 	/**
