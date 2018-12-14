@@ -129,6 +129,7 @@ public class StockageJeu{
 			paye.setMonnaie(paye.getMonnaie()+payeur.getMonnaie());
 			payeur.setMonnaie(0);
 			enleverTapisJoueur(payeur);
+			payeur.setTapis(0);
 		}
 		else{
 			paye.setMonnaie(paye.getMonnaie()+dime);
