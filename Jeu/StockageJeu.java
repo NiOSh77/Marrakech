@@ -67,7 +67,7 @@ public class StockageJeu{
 	*/
 	private void initialiseJoueurs(int nbJoueurs){
 		for(int i = 0; i < nbJoueurs; i++){
-			joueurs[i] = new Joueur(i, 20, 14, i+1);
+			joueurs[i] = new Joueur(i, 2, 3, i+1);
 		}
 	}
 
@@ -124,16 +124,18 @@ public class StockageJeu{
 	/**
 	*	Transfert l'argent entre deux joueurs
 	*/
-	public void payerVraimentDime(Joueur payeur, Joueur paye, int dime){
+	public boolean payerVraimentDime(Joueur payeur, Joueur paye, int dime){
 		if(dime>=payeur.getMonnaie()){
 			paye.setMonnaie(paye.getMonnaie()+payeur.getMonnaie());
 			payeur.setMonnaie(0);
 			enleverTapisJoueur(payeur);
 			payeur.setTapis(0);
+			return true;
 		}
 		else{
 			paye.setMonnaie(paye.getMonnaie()+dime);
 			payeur.setMonnaie(payeur.getMonnaie()-dime);
+			return false;
 		}
 	}
 

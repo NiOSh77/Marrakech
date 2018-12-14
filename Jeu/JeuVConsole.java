@@ -65,7 +65,7 @@ public class JeuVConsole{
 			tour = 1;
 		}
 		for(int i=0;i<joueurElimine;i++){
-			if(jeu.getJoueurs()[tour].getMonnaie()==0){
+			if(jeu.getJoueurs()[tour-1].getMonnaie()==0){
 				if(tour<jeu.getJoueurs().length){
 					tour++;
 				}
@@ -127,7 +127,7 @@ public class JeuVConsole{
 		System.out.println("// Fin de la partie //");
 		for(int i=0; i<jeu.getJoueurs().length; i++) {
 			j =jeu.getJoueurs()[i];
-			System.out.println("Joueur "+j.getNumJoueur()+" a obtenue "+j.getTapisRest()+j.getMonnaie()+" points" );
+			System.out.println("Joueur "+ (j.getNumJoueur()+1) + " a obtenue "+j.getTapisRest()+j.getMonnaie()+" points" );
 		}
 	}
 
@@ -164,7 +164,9 @@ public class JeuVConsole{
 			dime = jeu.payerDime(caseInfoTapis,x,y,0,new boolean[7][7]);
 			Joueur payeur = jeu.getJoueurs()[tour-1];
 			Joueur paye = jeu.getJoueurs()[caseInfoTapis-1];
-			jeu.payerVraimentDime(payeur,paye,dime);
+			if(jeu.payerVraimentDime(payeur,paye,dime)){
+				joueurElimine++;
+			}
 			console.afficherPayeurPaye(payeur, paye, dime);
 		}
 	}
@@ -185,7 +187,9 @@ public class JeuVConsole{
 				console.afficherSurQuelTapisEstAssam();
 				console.afficherJeu();
 				verifPayement();
-				while(!poserTapis());
+				if(jeu.getJoueurs()[tour-1].getMonnaie() > 0){
+					while(!poserTapis());
+				}
 
 				break;
 			} else {
