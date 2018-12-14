@@ -6,7 +6,7 @@ public class Assam{
 	/**
 	*	Position en X de Assam entre 1 et 7
 	*/
-	private static int posXPion;
+	private int posXPion;
 
 	/**
 	*	Direction de Assam
@@ -16,12 +16,12 @@ public class Assam{
 	*	3 = haut
 	*	4 = bas
 	*/
-	private static int direction;
+	private int direction;
 
 	/**
 	*	Position Y de Assam entre 1 et 7
 	*/
-	private static int posYPion;
+	private int posYPion;
 
 	/**
 	*	Constructeur
@@ -38,7 +38,7 @@ public class Assam{
 	*	@param b 	true on incremente de 1 posXPion
 	*				/false on decremente de 1 posXPion
 	*/
-	public static void changePosXPion(boolean b){
+	public void changePosXPion(boolean b){
 		if(b){
 			posXPion++;
 			direction=2;
@@ -58,7 +58,7 @@ public class Assam{
 	*	@param b 	true on incremente de 1 posYPion
 	*				/false on le decremente
 	*/
-	public static void changePosYPion(boolean b){
+	public void changePosYPion(boolean b){
 		if(b){
 			posYPion++;
 			direction=4;
@@ -75,7 +75,7 @@ public class Assam{
 	/**
 	*	Methode pour changer la position de Assam sur les bords
 	*/
-	private static void changement(){
+	private void changement(){
 		if(posYPion == 0){
 			if(posXPion < 7){
 				if(posXPion%2 == 1){
@@ -169,7 +169,7 @@ public class Assam{
 	/**
 	*	Methode pour deplacer Assam de n case
 	*	@param n Nombre de deplacement
-	*	@param d Direction de Assam 
+	*	@param d Direction de Assam
 	*	@return false quand Assam ne peut pas se deplacer
 	*	@return true quand assam peut se deplacer
 	*/
@@ -197,5 +197,5 @@ public class Assam{
 		return true;
 	}
 
-	
+
 }
