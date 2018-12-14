@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"Jeu","l":"Assam"},{"p":"Jeu","l":"Case"},{"p":"Jeu","l":"GestionConsole"},{"p":"Jeu","l":"JeuVConsole"},{"p":"Jeu","l":"Joueur"},{"p":"Jeu","l":"Lampe"},{"p":"Jeu","l":"StockageJeu"}]
