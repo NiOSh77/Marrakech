@@ -111,7 +111,7 @@ public class JeuVConsole{
 	}
 
 	/**
-	* Statistique à la fin de la partie
+	* Statistique a la fin de la partie
 	*/
 	private void statistique(){
 		for(int i = 0; i<7; i++){
