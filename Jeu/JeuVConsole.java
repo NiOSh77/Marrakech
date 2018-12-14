@@ -40,7 +40,10 @@ public class JeuVConsole{
 	*	Constructeur
 	*/
 	public JeuVConsole(){
-		System.out.println("Bienvenu dans le jeu du Marrakech, pour choisir une direction et vous deplacer, utilisez h pour haut, b pour bas, g pour gauche et d pour droite");
+		for(int i = 0; i < 8; i++){
+		System.out.println("*");
+		}
+		System.out.println("Bienvenue dans le jeu du Marrakech, pour choisir une direction et vous deplacer, utilisez h pour haut, b pour bas, g pour gauche et d pour droite");
 		jeu = StockageJeu.initialize(console.demanderNbJoueurs());
 		tour = 0;
 		joueurElimine=0;
