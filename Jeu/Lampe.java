@@ -46,7 +46,7 @@ public class Lampe{
   }
 
   /**
-   * Methode pour verifier que les coordonées du joueur sont les même que celle de la lampe
+   * Methode pour verifier que les coordonees du joueur sont les meme que celle de la lampe
    * @param x position du assam x
    * @param y position de assam y
    * @return true si la lampe et assam sont sur la meme case, sinon false
