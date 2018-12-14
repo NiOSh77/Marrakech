@@ -180,10 +180,16 @@ public class GestionConsole{
 		System.out.println("Assam est sur un tapis: " + jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-1].getCouleurTapis());
 	}
 
+	/**
+	*	Affiche un message sur le terminal pour montrer que l'utilisateur ne peut pas poser un tapis 
+	*/
 	public void afficherImpossiblePoserTapis(){
 		System.out.println("Vous ne pouvez pas poser un tapis en dehors du jeu!");
 	}
 
+	/**
+	*	Affiche que l'utilisateur ne peut pas choisir cette direction
+	*/
 	public void afficherImpossibleChoisirDirection(){
 		System.out.println("Vous ne pouvez pas choisir cette direction!");
 	}
