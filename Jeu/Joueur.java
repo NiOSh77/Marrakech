@@ -23,7 +23,12 @@ public class Joueur{
   private int tapisRest;
 
   /**
-  *
+  * Couleur des tapis du joueur
+  * 0 = pas de tapis
+  * 1 = rouge
+  * 2 = bleu
+  * 3 = vert
+  * 4 = jaune
   */
   private int couleur;
 

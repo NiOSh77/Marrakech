@@ -116,11 +116,14 @@ public class StockageJeu{
 	}
 
 	
-
+	/**
+	*	Transfert l'argent entre deux joueurs
+	*/
 	public void payerVraimentDime(Joueur payeur, Joueur paye, int dime){
 		if(dime>=payeur.getMonnaie()){
 			paye.setMonnaie(paye.getMonnaie()+payeur.getMonnaie());
 			payeur.setMonnaie(0);
+			enleverTapisJoueur(payeur);
 		}
 		else{
 			paye.setMonnaie(paye.getMonnaie()+dime);
@@ -128,6 +131,9 @@ public class StockageJeu{
 		}
 	}
 
+	/**
+	* Enleve les tapis d'un joueur
+	*/
 	private void enleverTapisJoueur(Joueur joueur){
 		for(int i = 0; i < 7; i++){
 			for(int j = 0; j < 7; j++){
@@ -152,6 +158,23 @@ public class StockageJeu{
 	*/
 	public static Joueur[] getJoueurs(){
 		return joueurs;
+	}
+
+	/**
+	*	Permet d'obtenir le nombre de tapis/case d'un joueur
+	*	@param joueur 
+	*	@return compte
+	*/
+	public int obtenirNombreDeTapis(Joueur joueur){
+		int compte = 0;
+		for(int i = 0; i<7; i++){
+			for(int j = 0; j<7; j++){
+				if(cases[i][j].getCouleurTapis() == joueur.getNumJoueur()){
+					compte ++;
+				}
+			}
+		}
+		return compte;
 	}
 
 

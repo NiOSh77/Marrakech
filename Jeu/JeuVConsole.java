@@ -102,7 +102,7 @@ public class JeuVConsole{
 			}
 
 			if(verifTapis()){
-				//methode resultat
+				
 			}
 
 

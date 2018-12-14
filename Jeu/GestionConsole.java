@@ -21,6 +21,13 @@ public class GestionConsole{
 	}
 
 	/**
+	*	Permet de demander coordonnees 
+	*/
+	public static int demanderCoordonnees(){
+		return 0;
+	}
+
+	/**
 	*	Permet d'obtenir a la ligne de commande le nombre de deplacement
 	*	@return n Nombre choisit sur la ligne de commande
 	*	@return -1 Si ce n'est pas un nombre qui a ete ecrit sur la ligne de commande
@@ -125,6 +132,7 @@ public class GestionConsole{
 
 	/**
 	*	Affiche quel joueur joue
+	*	@param num Numero du joueur
 	*/
 	public void quelJoueurJoue(int num){
 		System.out.println("C'est le tour du joueur " + num);
@@ -140,6 +148,7 @@ public class GestionConsole{
 
 	/**
 	*	Affiche le gagnant
+	*	@param num Numero du joueur
 	*/
 	public void afficherGagnant(int num){
 		System.out.println("Bravo au joueur "+ num);
@@ -154,6 +163,7 @@ public class GestionConsole{
 
 	/**
 	*	Affiche la direction choisie par l'utilisateur
+	*	@param dir Direction choisit par l'utilisateur
 	*/
 	public void afficherDirectionChoisie(int dir){
 		System.out.println("Vous avez choisi: "+ dir +"\nChoisissez une direction sans faire demi tour!");
@@ -168,6 +178,9 @@ public class GestionConsole{
 
 	/**
 	*	Affiche qui paye a qui
+	*	@param payeur Celui qui paye
+	*	@param paye Celui qui est paye
+	*	@param dime La somme transferee
 	*/
 	public void afficherPayeurPaye(Joueur payeur, Joueur paye, int dime){
 		System.out.println("Joueur "+ (payeur.getNumJoueur()+1) + " paye "+dime +" au joueur "+(paye.getNumJoueur()+1));
