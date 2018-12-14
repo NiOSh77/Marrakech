@@ -43,11 +43,13 @@ public class JeuVConsole{
 		for(int i = 0; i < 8; i++){
 		System.out.println("*");
 		}
-		System.out.println("Bienvenue dans le jeu du Marrakech, pour choisir une direction et vous deplacer, utilisez h pour haut, b pour bas, g pour gauche et d pour droite");
+
+		console.afficherMessageBienvenu();
 		jeu = StockageJeu.initialize(console.demanderNbJoueurs());
+		console = new GestionConsole(jeu);
 		tour = 0;
 		joueurElimine=0;
-		console = new GestionConsole(jeu);
+		
 		tourJeu();
 
 	}
@@ -88,7 +90,8 @@ public class JeuVConsole{
 
 			int n;
 			while ((n = console.demanderNbDeplacement()) == -1 );
-			System.out.println("Vous avez choisi: "+ n+"\nChoisissez une direction sans faire demi tour!");
+			
+			console.afficherDirectionChoisie(n);
 			demanderDeplacerAssam(n);
 			
 
@@ -106,6 +109,11 @@ public class JeuVConsole{
 		}
 	}
 
+	/**
+	*	Verifie si les joueurs ont des tapis
+	*	@return false Si au moins un joueur a un tapis
+	*	@return true Si tous les joueurs n'ont plus de tapis
+	*/
 	private static boolean verifTapis(){
 		int compte = 0;
 		for(int i = 0; i<jeu.getJoueurs().length; i++){
@@ -135,7 +143,7 @@ public class JeuVConsole{
 			Joueur payeur = jeu.getJoueurs()[tour-1];
 			Joueur paye = jeu.getJoueurs()[caseInfoTapis-1];
 			jeu.payerVraimentDime(payeur,paye,dime);
-			System.out.println("Joueur "+ (payeur.getNumJoueur()+1) + " paye "+dime +" au joueur "+(paye.getNumJoueur()+1));
+			console.afficherPayeurPaye(payeur, paye, dime);
 		}
 	}
 
@@ -151,16 +159,16 @@ public class JeuVConsole{
 			d = console.obtenirDirection();
 			if(jeu.getAssam().deplacerAssam(n, d)){
 
-				System.out.println("\n");
-				System.out.println("Assam est en pos " + jeu.getAssam().getXPion() + "  " + jeu.getAssam().getYPion());
-				System.out.println("Assam est sur un tapis: " + jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-1].getCouleurTapis());
+				console.afficherPosAssam();
+				console.afficherSurQuelTapisEstAssam();
 				console.afficherJeu();
 				verifPayement();
 				while(!poserTapis());
 
 				break;
 			} else {
-				System.out.println("Vous ne pouvez pas choisir cette direction!");
+				console.afficherImpossibleChoisirDirection();
+				
 			}
 
 
@@ -207,7 +215,7 @@ public class JeuVConsole{
 		  	}
 
 	  	} catch (ArrayIndexOutOfBoundsException e){
-	  		System.out.println("Vous ne pouvez pas placer un tapis en dehors du jeu");
+	  		console.afficherImpossiblePoserTapis();
 	  		return false;
 	  	}
 
@@ -222,7 +230,7 @@ public class JeuVConsole{
 	  		int d = console.obtenirDirection();
 	  		//pour ne pas faire de demi tour ou erreur de d
 			if(direction == 1 &&  d == 2 || direction == 2 && d == 1 || direction == 3 && d == 4 || direction == 4 && d == 3 || d<1 || d>4){
-				System.out.println("Impossible de choisir cette case!");
+				console.afficherImpossibleChoisirDirection();
 			} else {
 				try{
 				  	if(d == 1){
@@ -242,7 +250,7 @@ public class JeuVConsole{
 			  		}
 			  		break;
 	  			} catch (ArrayIndexOutOfBoundsException e){
-			  		System.out.println("Vous ne pouvez pas placer le second tapis en dehors du jeu");
+			  		console.afficherImpossiblePoserTapis();
 	  			}
 
 			}

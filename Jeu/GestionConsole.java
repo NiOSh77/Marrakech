@@ -123,16 +123,68 @@ public class GestionConsole{
 			}
 	}
 
+	/**
+	*	Affiche quel joueur joue
+	*/
 	public void quelJoueurJoue(int num){
 		System.out.println("C'est le tour du joueur " + num);
 	}
 
+	/**
+	*	Affiche la direction de Assam
+	*/
 	public void afficherDirectionAssam(){
 		String[] direction = {"Aucune", "Gauche", "Droite", "Haut", "Bas"};
 		System.out.println("Direction de Assam: "+direction[jeu.getAssam().getDirection()]);
 	}
 
+	/**
+	*	Affiche le gagnant
+	*/
 	public void afficherGagnant(int num){
 		System.out.println("Bravo au joueur "+ num);
+	}
+
+	/**
+	*	Affiche la position de Assam
+	*/
+	public void afficherPosAssam(){
+		System.out.println("Assam est en pos " + jeu.getAssam().getXPion() + "  " + jeu.getAssam().getYPion());
+	}
+
+	/**
+	*	Affiche la direction choisie par l'utilisateur
+	*/
+	public void afficherDirectionChoisie(int dir){
+		System.out.println("Vous avez choisi: "+ dir +"\nChoisissez une direction sans faire demi tour!");
+	}
+
+	/**
+	*	Affiche message de bienvenu
+	*/
+	public static void afficherMessageBienvenu(){
+		System.out.println("Bienvenue dans le jeu du Marrakech, pour choisir une direction et vous deplacer, utilisez h pour haut, b pour bas, g pour gauche et d pour droite");
+	}
+
+	/**
+	*	Affiche qui paye a qui
+	*/
+	public void afficherPayeurPaye(Joueur payeur, Joueur paye, int dime){
+		System.out.println("Joueur "+ (payeur.getNumJoueur()+1) + " paye "+dime +" au joueur "+(paye.getNumJoueur()+1));
+	}
+
+	/**
+	*	Affiche sur quel ptais est Assam
+	*/
+	public void afficherSurQuelTapisEstAssam(){
+		System.out.println("Assam est sur un tapis: " + jeu.cases[jeu.getAssam().getXPion()-1][jeu.getAssam().getYPion()-1].getCouleurTapis());
+	}
+
+	public void afficherImpossiblePoserTapis(){
+		System.out.println("Vous ne pouvez pas poser un tapis en dehors du jeu!");
+	}
+
+	public void afficherImpossibleChoisirDirection(){
+		System.out.println("Vous ne pouvez pas choisir cette direction!");
 	}
 }
