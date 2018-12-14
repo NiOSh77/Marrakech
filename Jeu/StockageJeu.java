@@ -80,7 +80,7 @@ public class StockageJeu{
 	}
 
 	/**
-	*Methode pour calculer la dime 
+	*Methode pour calculer la dime
 	*@param couleur c'est la couleur du tapis sur lequel assam est
 	*@param x on met la position x de assam
 	*@param y on met la position y de assam
@@ -95,7 +95,7 @@ public class StockageJeu{
 				dime = payerDime(couleur,x+1,y,dime,visited);
 			}
 		}
-		
+
 		if(x>0){
 			if(cases[x-1][y].getCouleurTapis()==couleur && !visited[x-1][y]){
 				dime = payerDime(couleur,x-1,y,dime,visited);
@@ -111,11 +111,11 @@ public class StockageJeu{
 				dime = payerDime(couleur,x,y-1,dime,visited);
 			}
 		}
-		
+
 		return dime;
 	}
 
-	
+
 	/**
 	*	Transfert l'argent entre deux joueurs
 	*/
@@ -162,7 +162,7 @@ public class StockageJeu{
 
 	/**
 	*	Permet d'obtenir le nombre de tapis/case d'un joueur
-	*	@param joueur 
+	*	@param joueur
 	*	@return compte
 	*/
 	public int obtenirNombreDeTapis(Joueur joueur){
